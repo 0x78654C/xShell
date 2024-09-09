@@ -4,10 +4,11 @@
 #gcc commands.c -o commands.o
 
 
-echo "[+] Building main..."
-gcc  main.c -o main.o
+echo "[+] Building xShell..."
+gcc  main.c -o shell
 
 echo "[+] Run  xShell"
-shell
+chmod +x shell
+./shell
 
 

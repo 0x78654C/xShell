@@ -1,7 +1,7 @@
-#Simple example of a shell in C for Linux:
+# Simple example of a shell in C for Linux:
 
 
-##Commands so far:
+## Commands so far:
 ```
 whoami
 ls (work in progress)

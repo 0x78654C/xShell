@@ -44,8 +44,10 @@ int main (int argc, char *argv[])
             char buffer[50];
             if(fgets(buffer, sizeof(buffer),stdin) != NULL)
             {
+                buffer[strcspn(buffer, "\n")] = 0;  // Remove newline
+                 
                  // pwd
-                 if(strcmp(buffer,"pwd")==10)
+                 if(strcmp(buffer,"pwd")== 0)
                  {
                     char cwd[1024];
                     getcwd(cwd, sizeof(cwd));
@@ -53,29 +55,29 @@ int main (int argc, char *argv[])
                  }  
 
                  // clear
-                 if(strcmp(buffer,"clear")==10)
+                 else if(strcmp(buffer,"clear")== 0)
                  {
                     system("@cls||clear");
                  } 
 
                  // whoami
-                 if(strcmp(buffer,"whoami")==10)
+                 else if(strcmp(buffer,"whoami")== 0)
                  {
                     printf("%s\n",pw->pw_name);
                  } 
 
                  // ls (not getting param from argv[1])
-                 if(strcmp(buffer,"ls") == 10)
+                 else if(strcmp(buffer,"ls") == 0)
                  {
-                   char *arg = "a";
+                   char *arg = ".";
                    ls(arg);
                  }
+                 else 
+                 {
+                        printf("Unknown command...");
+                 }
             } 
-            else 
-            {
-                printf("Unknown command...");
-            }
-
+           
         } else {
 
         }

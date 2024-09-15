@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include "UI/color_print.c"
+#include "file_system/ls.c"
 
 char *getlogin(void);
 struct passwd *pw;
@@ -45,93 +47,57 @@ int main (int argc, char *argv[])
             if(fgets(buffer, sizeof(buffer),stdin) != NULL)
             {
                 buffer[strcspn(buffer, "\n")] = 0;  // Remove newline
-                 
+                char *cmd = strtok(buffer," ");
+                char *param = strtok(NULL," ");
+                char cwd[1024];
+
                  // pwd
-                 if(strcmp(buffer,"pwd")== 0)
+                 if(strcmp(cmd,"pwd")== 0)
                  {
-                    char cwd[1024];
                     getcwd(cwd, sizeof(cwd));
                     printf("%s\n",cwd);
                  }  
 
                  // clear
-                 else if(strcmp(buffer,"clear")== 0)
+                 else if(strcmp(cmd,"clear")== 0)
                  {
                     system("@cls||clear");
                  } 
 
                  // whoami
-                 else if(strcmp(buffer,"whoami")== 0)
+                 else if(strcmp(cmd,"whoami")== 0)
                  {
                     printf("%s\n",pw->pw_name);
                  } 
 
                  // ls (not getting param from argv[1])
-                 else if(strcmp(buffer,"ls") == 0)
+                 else if(strcmp(cmd,"ls") == 0)
                  {
-                   char *arg = ".";
-                   ls(arg);
+                    if(param != NULL)
+                    {
+                        if(strcmp(param,"/")==0)
+                        {
+                            ls(param);
+                        }
+                        else
+                        {
+                            getcwd(cwd, sizeof(cwd));
+                            char  split[]  = "/";
+                            strcat(cwd, split);
+                            strcat(cwd, param);
+                            ls(param);
+                        }
+                    }
+                    else
+                    {
+                        ls(".");
+                    }
                  }
                  else 
                  {
-                        printf("Unknown command...");
+                    printf("Unknown command...");
                  }
             } 
-           
-        } else {
-
-        }
+        } 
     }
 }  
-
-// Display files/ dirs with size.
-void ls (char *arg)
-{
-    DIR *mydir;
-    struct dirent *myfile;
-    struct stat mystat;
-
-    char buf[512];
-    mydir = opendir(arg);
-    while((myfile = readdir(mydir)) != NULL)
-    {
-        sprintf(buf, "%s/%s", arg, myfile->d_name);
-        stat(buf, &mystat);
-        char *name = myfile->d_name;
-        if(strchr(name, '.') != NULL)
-        {
-           printf("%zu .... %s\n",mystat.st_size, myfile->d_name);
-        }
-    }
-    closedir(mydir);
-}
-
-// Clear screen
-void clearScreen()
-{
-  system("@cls||clear");
-}
-
-// Red Print
-void red_print(){
-    printf("\033[1;31m");
-}
-
-// Red Print
-void cyan_print(){
-    printf("\033[0;36m");
-}
-
-// Reset Print
-void reset_print(){
-    printf("\033[0m");
-}
-
-void print_ps1(char *username, char *hostname)
-{
-    cyan_print();
-    printf("(%s@%s) ", username, hostname);
-    red_print();
-    printf(" $ ");
-    reset_print();
-}

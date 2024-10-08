@@ -95,7 +95,7 @@ int main (int argc, char *argv[])
                  }
                  else 
                  {
-                    printf("Unknown command...");
+                    printf("Unknown command...\n");
                  }
             } 
         } 

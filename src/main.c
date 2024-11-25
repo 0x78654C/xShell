@@ -52,6 +52,13 @@ int main (int argc, char *argv[])
                 char cwd[1024];
 
                  // pwd
+                 if(strcmp(cmd,"exit")== 0)
+                 {
+                    printf("%s\n","Exiting xShell...");
+                    return 0;
+                 } 
+
+                 // pwd
                  if(strcmp(cmd,"pwd")== 0)
                  {
                     getcwd(cwd, sizeof(cwd));

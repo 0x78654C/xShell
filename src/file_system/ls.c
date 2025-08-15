@@ -16,7 +16,7 @@ void ls (char *arg)
     {
         while((myfile = readdir(mydir)))
         {
-            sprintf(buf, "%s/%s", arg, myfile->d_name);
+            printf(buf, "%s/%s", arg, myfile->d_name);
             stat(buf, &mystat);
             char *name = myfile->d_name;
             printf("%zu .... %s\n",mystat.st_size, myfile->d_name);

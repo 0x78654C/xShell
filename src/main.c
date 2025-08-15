@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include "UI/color_print.c"
 #include "file_system/ls.c"
+#include "file_system/help.c"
 
 char *getlogin(void);
 struct passwd *pw;
@@ -75,6 +76,12 @@ int main (int argc, char *argv[])
                  else if(strcmp(cmd,"whoami")== 0)
                  {
                     printf("%s\n",pw->pw_name);
+                 } 
+
+                 // help
+                 else if(strcmp(cmd,"help")== 0)
+                 {
+                    help();
                  } 
 
                  // ls (not getting param from argv[1])
